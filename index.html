@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SharePointカードポータル</title>
+    <link rel="stylesheet" href="css/portal.css" />
+  </head>
+  <body>
+    <div class="portal-layout">
+      <aside class="sidebar" aria-label="カテゴリ">
+        <div class="sidebar__header">
+          <p class="sidebar__eyebrow">SharePoint Portal</p>
+          <h1>カードポータル</h1>
+          <a class="sidebar__link" href="editor.html">カードを編集</a>
+        </div>
+        <nav class="sidebar__nav" id="category-nav"></nav>
+      </aside>
+
+      <main class="content">
+        <header class="content__header">
+          <div>
+            <p class="content__eyebrow">カード一覧</p>
+            <h2 id="current-category-title">ホーム</h2>
+          </div>
+          <label class="search-field" for="portal-search">
+            <span>キーワード検索</span>
+            <input id="portal-search" type="search" placeholder="カード名・説明で検索" />
+          </label>
+        </header>
+
+        <div id="portal-message" class="message" role="status" aria-live="polite"></div>
+
+        <section class="cards-section" aria-labelledby="current-category-title">
+          <div id="cards-grid" class="cards-grid"></div>
+        </section>
+      </main>
+    </div>
+
+    <script src="js/portal.js"></script>
+  </body>
+</html>
