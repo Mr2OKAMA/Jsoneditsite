@@ -24,6 +24,7 @@ SharePoint 向けのカード情報を、HTML を直接編集せずに管理す�
 ## オフィスポータルの使い方
 
 - `index.html` を開くと、`data/cards.json` を読み込んでポータルを表示します。
+- ローカルで直接 `index.html` を開く場合は、ブラウザの制約を避けるため `data/cards.js` も読み込みます。JSONを変更した場合は、同じ内容を `data/cards.js` にも反映してください。
 - 左サイドバーからホーム、中央、水処理、保守、電気を切り替えられます。
 - ポータル本体にはカード編集機能はありません。カードを変更する場合は `editor.html` で編集し、`cards.json` をエクスポートしてSharePoint側のJSONを手動で置き換えてください。
 - ポータルをSharePointへ配置する場合は、`index.html`、`css/portal.css`、`js/portal.js`、`data/cards.json` を相対関係を保ったままアップロードしてください。
@@ -72,7 +73,8 @@ SharePoint 向けのカード情報を、HTML を直接編集せずに管理す�
 │  ├─ editor.js
 │  └─ portal.js
 ├─ data/
-│  └─ cards.json
+│  ├─ cards.json
+│  └─ cards.js
 ├─ assets/
 │  ├─ icons/
 │  └─ images/

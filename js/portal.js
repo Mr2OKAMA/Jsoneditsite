@@ -77,6 +77,13 @@
   }
 
   function loadCards() {
+    if (window.PORTAL_CARDS && Array.isArray(window.PORTAL_CARDS.cards)) {
+      window.PORTAL_CARDS.cards.forEach(function (card) {
+        grid.appendChild(createCard(card));
+      });
+      cards = Array.prototype.slice.call(grid.querySelectorAll(".portal-card"));
+      return Promise.resolve();
+    }
     return fetch("data/cards.json", { cache: "no-store" })
       .then(function (response) {
         if (!response.ok) throw new Error("cards.json の読み込みに失敗しました (" + response.status + ")");
