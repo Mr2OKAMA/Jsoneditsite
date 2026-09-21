@@ -4,6 +4,7 @@ SharePoint 向けのカード情報を、HTML を直接編集せずに管理す�
 
 ## 公開ページ
 
+- [オフィスポータルを開く](https://mr2okama.github.io/Jsoneditsite/index.html)
 - [カード管理エディタを開く](https://mr2okama.github.io/Jsoneditsite/editor.html)
 
 ## GitHub Pages での公開方法
@@ -19,6 +20,13 @@ SharePoint 向けのカード情報を、HTML を直接編集せずに管理す�
 - `editor.html` を開くと、相対パスの `data/cards.json` を読み込んでカード一覧を表示します。
 - 画面上部のボタンから JSON 読み込み、エクスポート、新規追加、初期状態へのリセットが行えます。
 - 編集内容は一時的に `localStorage` に保存されるため、ページ再読み込み後も復元できます。
+
+## オフィスポータルの使い方
+
+- `index.html` を開くと、`data/cards.json` を読み込んでポータルを表示します。
+- 左サイドバーからホーム、中央、水処理、保守、電気を切り替えられます。
+- ポータル本体にはカード編集機能はありません。カードを変更する場合は `editor.html` で編集し、`cards.json` をエクスポートしてSharePoint側のJSONを手動で置き換えてください。
+- ポータルをSharePointへ配置する場合は、`index.html`、`css/portal.css`、`js/portal.js`、`data/cards.json` を相対関係を保ったままアップロードしてください。
 
 ## JSON インポート
 
@@ -55,11 +63,14 @@ SharePoint 向けのカード情報を、HTML を直接編集せずに管理す�
 
 ```text
 /
+├─ index.html
 ├─ editor.html
 ├─ css/
-│  └─ editor.css
+│  ├─ editor.css
+│  └─ portal.css
 ├─ js/
-│  └─ editor.js
+│  ├─ editor.js
+│  └─ portal.js
 ├─ data/
 │  └─ cards.json
 ├─ assets/
