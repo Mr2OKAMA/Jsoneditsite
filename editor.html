@@ -16,8 +16,9 @@
       </header>
 
       <div class="toolbar">
-        <button type="button" id="import-button">cards.js / cards.json を読み込む</button>
+        <button type="button" id="import-button">cards.js / categories.js を読み込む</button>
         <button type="button" id="export-button" class="primary">cards.js をエクスポート</button>
+        <button type="button" id="export-categories-button">categories.js をエクスポート</button>
         <button type="button" id="add-button">新しいカードを追加</button>
         <button type="button" id="reset-button">初期状態に戻す</button>
         <input id="file-input" type="file" accept="application/json,.json,.js,text/javascript" hidden />
@@ -35,6 +36,15 @@
       </section>
 
       <div id="editor-notification" class="notification" role="status" aria-live="polite"></div>
+
+      <section class="panel category-panel" aria-labelledby="category-title">
+        <div class="panel__header">
+          <h2 id="category-title">カテゴリ管理</h2>
+          <button type="button" id="add-category-button">カテゴリを追加</button>
+        </div>
+        <p class="category-hint">ここで追加・編集・削除したカテゴリは、カード編集のプルダウンとオフィスポータルのサイドバーへ自動で反映されます。</p>
+        <ul id="category-list" class="category-list"></ul>
+      </section>
 
       <main class="editor-layout">
         <section class="panel form-panel" aria-labelledby="form-title">
@@ -92,6 +102,7 @@
       </main>
     </div>
 
+    <script src="data/categories.js"></script>
     <script src="data/cards.js"></script>
     <script src="js/editor.js"></script>
   </body>

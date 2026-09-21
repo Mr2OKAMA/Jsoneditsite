@@ -1,21 +1,46 @@
 (function () {
   var grid = document.getElementById("portal-grid");
-  var links = Array.prototype.slice.call(document.querySelectorAll(".side-link"));
+  var sideList = document.getElementById("side-list");
   var title = document.getElementById("page-title");
   var breadcrumb = document.getElementById("breadcrumb-label");
   var lead = document.getElementById("page-lead");
   var count = document.getElementById("result-count");
   var empty = document.getElementById("empty-state");
   var sidebar = document.getElementById("sidebar");
-  var shortcutOnly = Array.prototype.slice.call(document.querySelectorAll(".shortcut-only"));
   var heading = document.getElementById("shortcut-heading");
   var note = document.getElementById("page-note");
   var currentTarget = "home";
   var cards = [];
+  var links = [];
+  var categories = [];
+
+  function renderSidebar() {
+    categories = (window.PORTAL_CATEGORIES && Array.isArray(window.PORTAL_CATEGORIES) && window.PORTAL_CATEGORIES.length)
+      ? window.PORTAL_CATEGORIES
+      : [{ id: "home", label: "ホーム", icon: "⌂" }];
+
+    sideList.innerHTML = "";
+    categories.forEach(function (category) {
+      var li = document.createElement("li");
+      var link = document.createElement("a");
+      link.className = "side-link";
+      link.href = "#" + category.id;
+      link.dataset.target = category.id;
+      link.innerHTML = '<span class="side-icon"></span>';
+      link.querySelector(".side-icon").textContent = category.icon || "▪";
+      link.appendChild(document.createTextNode(category.label || category.id));
+      link.addEventListener("click", function () {
+        select(category.id);
+      });
+      li.appendChild(link);
+      sideList.appendChild(li);
+    });
+    links = Array.prototype.slice.call(sideList.querySelectorAll(".side-link"));
+  }
 
   function labelFor(target) {
-    var link = document.querySelector('.side-link[data-target="' + target + '"]');
-    return link ? link.lastChild.textContent.trim() : "Dashboard";
+    var category = categories.filter(function (item) { return item.id === target; })[0];
+    return category ? category.label : "Dashboard";
   }
 
   function createCard(data) {
@@ -48,14 +73,10 @@
     lead.textContent = target === "home"
       ? "事務所の業務情報と各種ツールへ、ここからアクセスできます。"
       : label + " のショートカットを表示しています。";
-    shortcutOnly.forEach(function (item) {
-      item.hidden = target !== "home" && target !== "central" && target !== "water";
-    });
     heading.textContent = label + "のショートカット";
     cards.forEach(function (card) {
       card.hidden = card.dataset.category !== target;
     });
-    note.hidden = target === "home" || target === "central" || target === "water";
     var total = cards.filter(function (card) {
       return card.dataset.category === target;
     }).length;
@@ -100,11 +121,7 @@
       });
   }
 
-  links.forEach(function (link) {
-    link.addEventListener("click", function () {
-      select(link.dataset.target);
-    });
-  });
+  renderSidebar();
 
   document.getElementById("global-search").addEventListener("submit", function (event) {
     event.preventDefault();
@@ -125,9 +142,12 @@
 
   loadCards().then(function () {
     var initialTarget = window.location.hash.slice(1);
-    select(initialTarget && document.querySelector('.side-link[data-target="' + initialTarget + '"]') ? initialTarget : "home");
+    var validTarget = categories.some(function (item) { return item.id === initialTarget; });
+    select(validTarget ? initialTarget : "home");
   }).catch(function (error) {
-    note.hidden = false;
-    note.textContent = error.message + "。index.html と data/cards.json を同じサイト内に配置してください。";
+    if (note) {
+      note.hidden = false;
+      note.textContent = error.message + "。index.html と data/cards.json を同じサイト内に配置してください。";
+    }
   });
 }());

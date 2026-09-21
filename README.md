@@ -28,12 +28,20 @@ SharePoint 向けのカード情報を、HTML を直接編集せずに管理す�
 - ポータル本体にはカード編集機能はありません。カードを変更する場合は `editor.html` で編集し、`cards.js` をエクスポートして `data/cards.js` を置き換えてください。
 - ポータルをSharePointへ配置する場合は、`index.html`、`css/portal.css`、`js/portal.js`、`data/cards.js` を相対関係を保ったままアップロードしてください。
 
+## カテゴリ管理
+
+- 画面上部の **カテゴリ管理** パネルで、カテゴリ（ホーム・中央・水処理など）の追加・名称変更・アイコン変更・並べ替え・削除ができます。
+- ここで追加したカテゴリは、カード編集フォームのカテゴリ選択肢と、オフィスポータルの左サイドバーへ自動的に反映されます（コードの修正は不要です）。
+- **カテゴリを追加** をクリックし、表示名を入力すると新しいカテゴリが追加されます。IDは表示名から自動生成されます。
+- 既にカードで使用されているカテゴリは、そのカードを削除するかカテゴリを変更するまで削除できません。
+- **categories.js をエクスポート** で `window.PORTAL_CATEGORIES = [...];` 形式の `categories.js` をダウンロードできます。SharePoint側の `data/categories.js` をこのファイルで置き換えてください。
+
 ## ファイルの読み込み（インポート）
 
-1. **cards.js / cards.json を読み込む** をクリックします。
-2. ローカル PC 上の `cards.js`（または `cards.json`）を選択します。
-3. `cards.js` の場合は `window.PORTAL_CARDS = {...};` の中身を自動的に取り出します。
-4. JSON の形式、必須フィールド、カテゴリ、tone、URL、ID 重複を検証します。
+1. **cards.js / categories.js を読み込む** をクリックします。
+2. ローカル PC 上の `cards.js`・`cards.json`・`categories.js` のいずれかを選択します。
+3. ファイル名や中身の `window.PORTAL_CARDS` / `window.PORTAL_CATEGORIES` を見て自動判定します。
+4. 形式、必須フィールド、カテゴリ、tone、URL、ID 重複を検証します。
 5. エラーがある場合は日本語メッセージで画面表示し、不正なデータは反映しません。
 
 ## カード追加・編集・削除
@@ -53,9 +61,9 @@ SharePoint 向けのカード情報を、HTML を直接編集せずに管理す�
 
 ## SharePoint への手動アップロード
 
-1. `editor.html` からダウンロードした `cards.js` を用意します。
-2. SharePoint 側で利用中の `data/cards.js` の配置場所を開きます。
-3. 既存の `cards.js` を新しいファイルで手動上書きします。
+1. `editor.html` からダウンロードした `cards.js`（カテゴリを変更した場合は `categories.js` も）を用意します。
+2. SharePoint 側で利用中の `data/cards.js`（および `data/categories.js`）の配置場所を開きます。
+3. 既存のファイルを新しいファイルで手動上書きします。
 4. ポータル画面を再読み込みして内容を確認します。
 
 > このリポジトリは GitHub や SharePoint への自動アップロード、自動コミット、自動同期を行いません。
@@ -74,7 +82,8 @@ SharePoint 向けのカード情報を、HTML を直接編集せずに管理す�
 │  └─ portal.js
 ├─ data/
 │  ├─ cards.json
-│  └─ cards.js
+│  ├─ cards.js
+│  └─ categories.js
 ├─ assets/
 │  ├─ icons/
 │  └─ images/
@@ -107,9 +116,23 @@ SharePoint 向けのカード情報を、HTML を直接編集せずに管理す�
 }
 ```
 
-- `category`: `home`, `central`, `water`, `maintenance`, `electrical`
+- `category`: `data/categories.js` に定義したカテゴリのIDのいずれか（初期値: `home`, `central`, `water`, `maintenance`, `electrical`）
 - `tone`: `blue`, `green`, `purple`, `yellow`, `red`
 - `id`: 一意である必要があります
+
+## カテゴリ定義の形式
+
+`data/categories.js` は以下の形式です。
+
+```js
+window.PORTAL_CATEGORIES = [
+  { "id": "central", "label": "中央", "icon": "⌘" }
+];
+```
+
+- `id`: 一意である必要があります（カードの `category` から参照されます）
+- `label`: サイドバーやプルダウンに表示される名前
+- `icon`: サイドバーに表示する1〜2文字程度の記号
 
 ## GitHub Pages から SharePoint の JSON を直接更新できない理由
 

@@ -27,13 +27,7 @@
       <p class="sidebar-heading">Office Portal <small>▾</small></p>
       <input class="side-search" id="side-search" type="search" placeholder="メニューを検索…" aria-label="メニューを検索">
       <nav aria-label="ポータルメニュー">
-        <ul class="side-list">
-          <li><a class="side-link active" href="#home" data-target="home"><span class="side-icon">⌂</span>ホーム</a></li>
-          <li><a class="side-link" href="#central" data-target="central"><span class="side-icon">⌘</span>中央</a></li>
-          <li><a class="side-link" href="#water" data-target="water"><span class="side-icon">≋</span>水処理</a></li>
-          <li><a class="side-link" href="#maintenance" data-target="maintenance"><span class="side-icon">⚙</span>保守</a></li>
-          <li><a class="side-link" href="#electrical" data-target="electrical"><span class="side-icon">ϟ</span>電気</a></li>
-        </ul>
+        <ul class="side-list" id="side-list"></ul>
       </nav>
       <p class="side-note">リンク先はSharePointのページURLに差し替えてご利用ください。</p>
     </aside>
@@ -43,18 +37,18 @@
         <div class="breadcrumb">Office Portal <span>/</span> <strong id="breadcrumb-label">Dashboard</strong></div>
         <h1 id="page-title">Dashboard</h1>
         <p class="lead" id="page-lead">事務所の業務情報と各種ツールへ、ここからアクセスできます。</p>
-        <div class="content-toolbar shortcut-only">
+        <div class="content-toolbar">
           <strong id="shortcut-heading">ホームのショートカット</strong>
           <span id="result-count">1 links</span>
         </div>
-        <div class="portal-grid shortcut-only" id="portal-grid">
+        <div class="portal-grid" id="portal-grid">
         </div>
-        <p class="page-note" id="page-note">サイドバーからカテゴリを選択してください。</p>
-        <p class="empty-state shortcut-only" id="empty-state">一致するショートカットがありません。</p>
+        <p class="empty-state" id="empty-state">一致するショートカットがありません。</p>
         <footer>© 2026 Office Portal · Internal use only</footer>
       </div>
     </main>
   </div>
+  <script src="data/categories.js"></script>
   <script src="data/cards.js"></script>
   <script src="js/portal.js"></script>
 </body>

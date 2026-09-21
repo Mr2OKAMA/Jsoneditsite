@@ -278,6 +278,88 @@ textarea {
   font-size: 0.85rem;
 }
 
+.category-panel {
+  width: min(1400px, 100%);
+  margin: 0 auto;
+}
+
+.category-panel .panel__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.category-hint {
+  margin: 0;
+  padding: 12px 20px 0;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.category-list {
+  list-style: none;
+  padding: 16px 20px 20px;
+  margin: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.category-item {
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--panel-muted);
+}
+
+.category-icon-input {
+  width: 100%;
+  padding: 8px;
+  text-align: center;
+}
+
+.category-label-input {
+  width: 100%;
+  padding: 8px 10px;
+}
+
+.category-id-badge {
+  padding: 4px 8px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 0.78rem;
+  white-space: nowrap;
+}
+
+.category-item__controls {
+  display: flex;
+  gap: 6px;
+}
+
+.category-item__controls button {
+  padding: 8px 10px;
+}
+
+@media (max-width: 760px) {
+  .category-item {
+    grid-template-columns: 44px 1fr;
+    grid-template-areas:
+      "icon label"
+      "id id"
+      "controls controls";
+  }
+
+  .category-icon-input { grid-area: icon; }
+  .category-label-input { grid-area: label; }
+  .category-id-badge { grid-area: id; justify-self: start; }
+  .category-item__controls { grid-area: controls; }
+}
+
 @media (max-width: 1180px) {
   .editor-layout {
     grid-template-columns: repeat(2, minmax(0, 1fr));
