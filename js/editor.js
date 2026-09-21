@@ -234,7 +234,8 @@
       return;
     }
     const [moved] = cards.splice(sourceIndex, 1);
-    cards.splice(targetIndex, 0, moved);
+    const updatedTargetIndex = cards.findIndex((card) => card.id === targetId);
+    cards.splice(updatedTargetIndex < 0 ? cards.length : updatedTargetIndex, 0, moved);
     state.data.cards = cards;
     saveDraft();
     updatePreview();
@@ -349,12 +350,15 @@
     renderList();
   }
 
-  function setData(payload, notificationMessage) {
+  function setData(payload, notificationMessage, options = {}) {
+    const { persist = true } = options;
     state.data = validatePayload(clone(payload));
     if (!state.data.cards.find((card) => card.id === state.selectedId)) {
       state.selectedId = state.data.cards[0]?.id || '';
     }
-    saveDraft();
+    if (persist) {
+      saveDraft();
+    }
     refreshView();
     fillForm(state.data.cards.find((card) => card.id === state.selectedId) || null);
     if (notificationMessage) {
@@ -384,7 +388,7 @@
       }
     } catch (error) {
       setNotification(`初期JSONの読み込みに失敗しました: ${error.message}`, 'error');
-      setData(state.initialData, '');
+      setData(state.initialData, '', { persist: false });
     }
   }
 
