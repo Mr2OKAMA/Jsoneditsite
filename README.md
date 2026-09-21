@@ -1,6 +1,11 @@
 # Jsoneditsite
 
-SharePoint ポータル向けのカード情報を、HTML を直接編集せずに管理するための静的 Web サイトです。`editor.html` でカードを編集し、ブラウザから `cards.json` をダウンロードして SharePoint 側へ手動反映します。
+SharePoint ポータル向けのカード情報を、HTML を直接編集せずに管理するための静的 Web サイトです。`editor.html` でカードを編集し、ブラウザから `cards.json` をインポート・エクスポートできます。
+
+## 公開ページ
+
+- [カードポータルを開く](https://mr2okama.github.io/Jsoneditsite/)
+- [カード管理エディタを開く](https://mr2okama.github.io/Jsoneditsite/editor.html)
 
 ## GitHub Pages での公開方法
 
@@ -99,7 +104,7 @@ SharePoint ポータル向けのカード情報を、HTML を直接編集せず�
 
 ## GitHub Pages から SharePoint の JSON を直接更新できない理由
 
-GitHub Pages は静的ファイル配信のみを行うため、ブラウザから SharePoint 上の JSON を直接上書きするサーバーサイド処理は実装できません。そのため、編集後はダウンロードした `cards.json` を SharePoint へ手動アップロードしてください。
+GitHub Pages は静的ファイル配信のみを行うため、ブラウザから SharePoint 上の JSON を直接上書きするサーバーサイド処理は実装できません。そのため、JSON をダウンロードして SharePoint に手動アップロードする運用にしています。
 
 ## 公開リポジトリへ保存しない情報
 
