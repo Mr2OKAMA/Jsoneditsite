@@ -234,7 +234,8 @@
       return;
     }
     const [moved] = cards.splice(sourceIndex, 1);
-    cards.splice(targetIndex, 0, moved);
+    const insertIndex = sourceIndex < targetIndex ? targetIndex - 1 : targetIndex;
+    cards.splice(insertIndex, 0, moved);
     state.data.cards = cards;
     saveDraft();
     updatePreview();
@@ -404,7 +405,12 @@
     try {
       const card = createCardFromForm();
       const cards = [...state.data.cards];
-      const index = cards.findIndex((item) => item.id === card.id);
+      const editingId = state.selectedId && cards.some((item) => item.id === state.selectedId)
+        ? state.selectedId
+        : '';
+      const index = editingId
+        ? cards.findIndex((item) => item.id === editingId)
+        : cards.findIndex((item) => item.id === card.id);
 
       if (index >= 0) {
         cards[index] = card;

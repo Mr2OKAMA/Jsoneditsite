@@ -36,6 +36,18 @@
     return card && typeof card === 'object' && CATEGORY_META[card.category];
   }
 
+  function isSafeUrl(value) {
+    if (!value || value === '#') {
+      return true;
+    }
+    try {
+      const url = new URL(value, window.location.href);
+      return ['http:', 'https:', 'mailto:', 'tel:'].includes(url.protocol) || !value.includes(':');
+    } catch (_error) {
+      return false;
+    }
+  }
+
   function filterCards() {
     const keyword = state.search.trim().toLowerCase();
     return state.cards.filter((card) => {
@@ -74,6 +86,13 @@
 
     const open = () => {
       const target = typeof card.url === 'string' && card.url.trim() ? card.url.trim() : '#';
+      if (!isSafeUrl(target)) {
+        setMessage(`カード「${card.title || '無題'}」のURLが不正なため開けません。`, 'error');
+        return;
+      }
+      if (target !== '#') {
+        clearMessage();
+      }
       window.location.href = target;
     };
 
