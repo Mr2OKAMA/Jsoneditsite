@@ -234,8 +234,7 @@
       return;
     }
     const [moved] = cards.splice(sourceIndex, 1);
-    const insertIndex = sourceIndex < targetIndex ? targetIndex - 1 : targetIndex;
-    cards.splice(insertIndex, 0, moved);
+    cards.splice(targetIndex, 0, moved);
     state.data.cards = cards;
     saveDraft();
     updatePreview();
@@ -374,7 +373,12 @@
 
       const draft = localStorage.getItem(STORAGE_KEY);
       if (draft) {
-        setData(validatePayload(JSON.parse(draft)), '保存済みの編集中データを復元しました。');
+        try {
+          setData(validatePayload(JSON.parse(draft)), '保存済みの編集中データを復元しました。');
+        } catch (_error) {
+          localStorage.removeItem(STORAGE_KEY);
+          setData(payload, '保存済みデータが不正だったため破棄し、初期 cards.json を読み込みました。');
+        }
       } else {
         setData(payload, '初期 cards.json を読み込みました。');
       }

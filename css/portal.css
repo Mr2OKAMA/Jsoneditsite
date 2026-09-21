@@ -154,6 +154,8 @@ a {
   gap: 12px;
   text-align: left;
   cursor: pointer;
+  color: inherit;
+  text-decoration: none;
 }
 
 .card__icon {

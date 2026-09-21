@@ -24,12 +24,16 @@
   function setMessage(text, type) {
     elements.message.textContent = text;
     elements.message.className = 'message is-visible';
+    elements.message.setAttribute('role', type === 'error' ? 'alert' : 'status');
+    elements.message.setAttribute('aria-live', type === 'error' ? 'assertive' : 'polite');
     elements.message.classList.add(type === 'error' ? 'is-error' : 'is-info');
   }
 
   function clearMessage() {
     elements.message.textContent = '';
     elements.message.className = 'message';
+    elements.message.setAttribute('role', 'status');
+    elements.message.setAttribute('aria-live', 'polite');
   }
 
   function isRenderableCard(card) {
@@ -64,9 +68,9 @@
   }
 
   function createCardElement(card) {
-    const article = document.createElement('article');
-    article.className = 'card';
-    article.tabIndex = 0;
+    const link = document.createElement('a');
+    link.className = 'card';
+    link.href = '#';
 
     const icon = document.createElement('div');
     icon.className = `card__icon tone-${card.tone || 'blue'}`;
@@ -84,28 +88,28 @@
     url.className = 'card__url';
     url.textContent = card.url || '#';
 
-    const open = () => {
-      const target = typeof card.url === 'string' && card.url.trim() ? card.url.trim() : '#';
+    const target = typeof card.url === 'string' && card.url.trim() ? card.url.trim() : '#';
+    if (isSafeUrl(target)) {
+      link.href = target;
+      if (target !== '#') {
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+      }
+    }
+
+    link.addEventListener('click', (event) => {
       if (!isSafeUrl(target)) {
+        event.preventDefault();
         setMessage(`カード「${card.title || '無題'}」のURLが不正なため開けません。`, 'error');
         return;
       }
       if (target !== '#') {
         clearMessage();
       }
-      window.location.href = target;
-    };
-
-    article.addEventListener('click', open);
-    article.addEventListener('keydown', (event) => {
-      if (event.key === 'Enter' || event.key === ' ') {
-        event.preventDefault();
-        open();
-      }
     });
 
-    article.append(icon, title, description, url);
-    return article;
+    link.append(icon, title, description, url);
+    return link;
   }
 
   function renderCards() {
