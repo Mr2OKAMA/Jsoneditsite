@@ -1,10 +1,9 @@
 # Jsoneditsite
 
-SharePoint ポータル向けのカード情報を、HTML を直接編集せずに管理するための静的 Web サイトです。`editor.html` でカードを編集し、ブラウザから `cards.json` をインポート・エクスポートできます。
+SharePoint 向けのカード情報を、HTML を直接編集せずに管理するための静的 Web サイトです。`editor.html` でカードを編集し、ブラウザから `cards.json` をインポート・エクスポートできます。
 
 ## 公開ページ
 
-- [カードポータルを開く](https://mr2okama.github.io/Jsoneditsite/)
 - [カード管理エディタを開く](https://mr2okama.github.io/Jsoneditsite/editor.html)
 
 ## GitHub Pages での公開方法
@@ -13,7 +12,7 @@ SharePoint ポータル向けのカード情報を、HTML を直接編集せず�
 2. GitHub の **Settings > Pages** を開きます。
 3. **Build and deployment** の Source で **Deploy from a branch** を選択します。
 4. Branch に公開対象ブランチ（例: `main`）を選択し、フォルダは `/ (root)` を指定して保存します。
-5. 公開後、`https://<ユーザー名>.github.io/<リポジトリ名>/` で `index.html`、`https://<ユーザー名>.github.io/<リポジトリ名>/editor.html` で編集画面を利用できます。
+5. 公開後、`https://<ユーザー名>.github.io/<リポジトリ名>/editor.html` で編集画面を利用できます。
 
 ## editor.html の使い方
 
@@ -48,7 +47,7 @@ SharePoint ポータル向けのカード情報を、HTML を直接編集せず�
 1. `editor.html` からダウンロードした `cards.json` を用意します。
 2. SharePoint 側で利用中の JSON 配置場所を開きます。
 3. 既存の `cards.json` を新しいファイルで手動上書きします。
-4. ポータル側を再読み込みして内容を確認します。
+4. JSON を利用する側の画面を再読み込みして内容を確認します。
 
 > このリポジトリは GitHub や SharePoint への自動アップロード、自動コミット、自動同期を行いません。
 
@@ -56,13 +55,10 @@ SharePoint ポータル向けのカード情報を、HTML を直接編集せず�
 
 ```text
 /
-├─ index.html
 ├─ editor.html
 ├─ css/
-│  ├─ portal.css
 │  └─ editor.css
 ├─ js/
-│  ├─ portal.js
 │  └─ editor.js
 ├─ data/
 │  └─ cards.json
