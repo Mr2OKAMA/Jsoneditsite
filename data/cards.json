@@ -1,0 +1,68 @@
+{
+  "version": 1,
+  "cards": [
+    {
+      "id": "manual-search",
+      "category": "home",
+      "title": "マニュアル検索",
+      "description": "社内マニュアルを検索",
+      "url": "#",
+      "icon": "⌕",
+      "tone": "purple"
+    },
+    {
+      "id": "handover-report",
+      "category": "central",
+      "title": "引継報告書",
+      "description": "引継ぎ内容の報告・記録",
+      "url": "#",
+      "icon": "↔",
+      "tone": "purple"
+    },
+    {
+      "id": "safety-log",
+      "category": "central",
+      "title": "安全日誌",
+      "description": "安全活動の日誌・記録",
+      "url": "#",
+      "icon": "▣",
+      "tone": "green"
+    },
+    {
+      "id": "emergency-work-history",
+      "category": "central",
+      "title": "緊急時対応作業履歴",
+      "description": "緊急時の対応内容と作業履歴",
+      "url": "#",
+      "icon": "!",
+      "tone": "red"
+    },
+    {
+      "id": "pac-drop-rate",
+      "category": "central",
+      "title": "PAC滴下量",
+      "description": "PAC滴下量の記録・確認",
+      "url": "#",
+      "icon": "≋",
+      "tone": "yellow"
+    },
+    {
+      "id": "water-quality-test",
+      "category": "water",
+      "title": "水質試験",
+      "description": "水質試験の記録・確認",
+      "url": "#",
+      "icon": "◌",
+      "tone": "blue"
+    },
+    {
+      "id": "chemical-receiving",
+      "category": "water",
+      "title": "薬品受け入れ",
+      "description": "薬品の受け入れ記録・確認",
+      "url": "#",
+      "icon": "▣",
+      "tone": "yellow"
+    }
+  ]
+}

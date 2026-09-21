@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>カード管理エディタ</title>
+    <link rel="stylesheet" href="css/editor.css" />
+  </head>
+  <body>
+    <div class="editor-page">
+      <header class="editor-header">
+        <div>
+          <p class="editor-header__eyebrow">GitHub Pages / SharePoint</p>
+          <h1>カード管理エディタ</h1>
+        </div>
+        <a class="editor-header__link" href="index.html">ポータルを開く</a>
+      </header>
+
+      <div class="toolbar">
+        <button type="button" id="import-button">JSONを読み込む</button>
+        <button type="button" id="export-button" class="primary">JSONをエクスポート</button>
+        <button type="button" id="add-button">新しいカードを追加</button>
+        <button type="button" id="reset-button">初期状態に戻す</button>
+        <input id="file-input" type="file" accept="application/json,.json" hidden />
+      </div>
+
+      <section class="filters" aria-label="絞り込み">
+        <label>
+          <span>カテゴリ</span>
+          <select id="category-filter"></select>
+        </label>
+        <label>
+          <span>キーワード</span>
+          <input id="search-input" type="search" placeholder="カード名・説明で検索" />
+        </label>
+      </section>
+
+      <div id="editor-notification" class="notification" role="status" aria-live="polite"></div>
+
+      <main class="editor-layout">
+        <section class="panel form-panel" aria-labelledby="form-title">
+          <div class="panel__header">
+            <h2 id="form-title">カード編集フォーム</h2>
+          </div>
+          <form id="card-form" novalidate>
+            <input id="card-id" type="hidden" />
+            <label>
+              <span>カテゴリ</span>
+              <select id="card-category" required></select>
+            </label>
+            <label>
+              <span>カード名</span>
+              <input id="card-title" type="text" maxlength="80" required />
+            </label>
+            <label>
+              <span>説明</span>
+              <textarea id="card-description" rows="4" maxlength="200" required></textarea>
+            </label>
+            <label>
+              <span>リンクURL</span>
+              <input id="card-url" type="text" placeholder="https://example.com または #" />
+            </label>
+            <label>
+              <span>アイコン</span>
+              <input id="card-icon" type="text" maxlength="4" required />
+            </label>
+            <label>
+              <span>色</span>
+              <select id="card-tone" required></select>
+            </label>
+            <div class="form-actions">
+              <button type="submit" class="primary">保存</button>
+              <button type="button" id="cancel-button">キャンセル</button>
+              <button type="button" id="delete-button" class="danger">削除</button>
+            </div>
+          </form>
+        </section>
+
+        <section class="panel list-panel" aria-labelledby="list-title">
+          <div class="panel__header">
+            <h2 id="list-title">カード一覧</h2>
+            <p id="card-count"></p>
+          </div>
+          <ul id="card-list" class="card-list"></ul>
+        </section>
+
+        <section class="panel preview-panel" aria-labelledby="preview-title">
+          <div class="panel__header">
+            <h2 id="preview-title">JSONプレビュー</h2>
+          </div>
+          <pre id="json-preview"></pre>
+        </section>
+      </main>
+    </div>
+
+    <script src="js/editor.js"></script>
+  </body>
+</html>
