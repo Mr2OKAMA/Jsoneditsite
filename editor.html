@@ -16,11 +16,11 @@
       </header>
 
       <div class="toolbar">
-        <button type="button" id="import-button">JSONを読み込む</button>
-        <button type="button" id="export-button" class="primary">JSONをエクスポート</button>
+        <button type="button" id="import-button">cards.js / cards.json を読み込む</button>
+        <button type="button" id="export-button" class="primary">cards.js をエクスポート</button>
         <button type="button" id="add-button">新しいカードを追加</button>
         <button type="button" id="reset-button">初期状態に戻す</button>
-        <input id="file-input" type="file" accept="application/json,.json" hidden />
+        <input id="file-input" type="file" accept="application/json,.json,.js,text/javascript" hidden />
       </div>
 
       <section class="filters" aria-label="絞り込み">
@@ -85,13 +85,14 @@
 
         <section class="panel preview-panel" aria-labelledby="preview-title">
           <div class="panel__header">
-            <h2 id="preview-title">JSONプレビュー</h2>
+            <h2 id="preview-title">cards.js プレビュー</h2>
           </div>
           <pre id="json-preview"></pre>
         </section>
       </main>
     </div>
 
+    <script src="data/cards.js"></script>
     <script src="js/editor.js"></script>
   </body>
 </html>

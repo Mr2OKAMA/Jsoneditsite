@@ -368,11 +368,16 @@
 
   async function loadInitialData() {
     try {
-      const response = await fetch('data/cards.json', { cache: 'no-store' });
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}`);
+      let payload;
+      if (window.PORTAL_CARDS) {
+        payload = validatePayload(clone(window.PORTAL_CARDS));
+      } else {
+        const response = await fetch('data/cards.json', { cache: 'no-store' });
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+        payload = validatePayload(await response.json());
       }
-      const payload = validatePayload(await response.json());
       state.initialData = clone(payload);
 
       const draft = localStorage.getItem(STORAGE_KEY);
@@ -381,13 +386,13 @@
           setData(validatePayload(JSON.parse(draft)), '保存済みの編集中データを復元しました。');
         } catch (_error) {
           localStorage.removeItem(STORAGE_KEY);
-          setData(payload, '保存済みデータが不正だったため破棄し、初期 cards.json を読み込みました。');
+          setData(payload, '保存済みデータが不正だったため破棄し、初期 cards.js を読み込みました。');
         }
       } else {
-        setData(payload, '初期 cards.json を読み込みました。');
+        setData(payload, '初期 cards.js を読み込みました。');
       }
     } catch (error) {
-      setNotification(`初期JSONの読み込みに失敗しました: ${error.message}`, 'error');
+      setNotification(`初期データの読み込みに失敗しました: ${error.message}`, 'error');
       setData(state.initialData, '', { persist: false });
     }
   }
@@ -461,6 +466,14 @@
     setData({ version: 1, cards }, 'カードを削除しました。');
   }
 
+  function extractPortalCardsPayload(text) {
+    const match = text.match(/window\.PORTAL_CARDS\s*=\s*({[\s\S]*?})\s*;?\s*$/);
+    if (!match) {
+      throw new Error('window.PORTAL_CARDS = {...}; の形式が見つかりません。');
+    }
+    return JSON.parse(match[1]);
+  }
+
   async function handleImport(event) {
     const [file] = event.target.files || [];
     if (!file) {
@@ -469,10 +482,12 @@
 
     try {
       const text = await file.text();
-      const payload = validatePayload(JSON.parse(text));
-      setData(payload, 'JSONを読み込みました。');
+      const isJsFile = /\.js$/i.test(file.name) || text.includes('window.PORTAL_CARDS');
+      const rawPayload = isJsFile ? extractPortalCardsPayload(text) : JSON.parse(text);
+      const payload = validatePayload(rawPayload);
+      setData(payload, isJsFile ? 'cards.js を読み込みました。' : 'cards.json を読み込みました。');
     } catch (error) {
-      setNotification(`JSONの読み込みに失敗しました: ${error.message}`, 'error');
+      setNotification(`ファイルの読み込みに失敗しました: ${error.message}`, 'error');
     } finally {
       elements.fileInput.value = '';
     }
@@ -482,18 +497,19 @@
     clearNotification();
     try {
       const payload = makePayload();
-      const blob = new Blob([JSON.stringify(payload, null, 2)], {
-        type: 'application/json;charset=utf-8'
+      const content = `window.PORTAL_CARDS = ${JSON.stringify(payload, null, 2)};\n`;
+      const blob = new Blob([content], {
+        type: 'application/javascript;charset=utf-8'
       });
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
-      link.download = 'cards.json';
+      link.download = 'cards.js';
       document.body.appendChild(link);
       link.click();
       link.remove();
       URL.revokeObjectURL(url);
-      setNotification('cards.json をエクスポートしました。');
+      setNotification('cards.js をエクスポートしました。data/cards.js を置き換えてください。');
     } catch (error) {
       setNotification(`エクスポートできません: ${error.message}`, 'error');
     }
