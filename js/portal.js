@@ -45,8 +45,9 @@
 
   function createCard(data) {
     var card = document.createElement("a");
+    var url = (data.url || "#").trim();
     card.className = "portal-card searchable";
-    card.href = data.url || "#";
+    card.href = url || "#";
     card.dataset.id = data.id;
     card.dataset.category = data.category;
     card.dataset.search = data.title + " " + data.description;
@@ -56,8 +57,10 @@
     card.querySelector("strong").textContent = data.title;
     card.querySelector("small").textContent = data.description || "ショートカット";
     card.addEventListener("click", function (event) {
-      event.preventDefault();
-      select(card.dataset.category);
+      if (!url || url === "#") {
+        event.preventDefault();
+        select(card.dataset.category);
+      }
     });
     return card;
   }
