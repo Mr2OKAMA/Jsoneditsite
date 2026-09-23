@@ -4,6 +4,20 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Office Portal</title>
+  <script>
+    (function () {
+      var theme = "dark";
+      try {
+        var savedTheme = localStorage.getItem("portal-theme");
+        if (savedTheme === "light" || savedTheme === "dark") {
+          theme = savedTheme;
+        } else if (window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches) {
+          theme = "light";
+        }
+      } catch (error) {}
+      document.documentElement.dataset.theme = theme;
+    }());
+  </script>
   <link rel="stylesheet" href="css/portal.css">
 </head>
 <body>
