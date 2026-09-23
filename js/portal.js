@@ -20,9 +20,9 @@
   function updateThemeToggle(theme) {
     if (!themeToggle) return;
     var isLight = theme === "light";
-    themeToggle.textContent = isLight ? "ライト" : "ダーク";
+    themeToggle.textContent = isLight ? "テーマ: ライト" : "テーマ: ダーク";
     themeToggle.setAttribute("aria-checked", String(isLight));
-    themeToggle.setAttribute("aria-label", isLight ? "ダークモードに切り替え" : "ライトモードに切り替え");
+    themeToggle.setAttribute("aria-label", isLight ? "テーマ: ライトモード" : "テーマ: ダークモード");
   }
 
   function applyTheme(theme) {
