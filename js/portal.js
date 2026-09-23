@@ -43,12 +43,17 @@
   }
 
   function applyTheme(theme, persist) {
-    document.documentElement.setAttribute("data-theme", theme === "light" ? "light" : "dark");
-    updateThemeToggle(theme);
+    var normalizedTheme = theme === "light" ? "light" : "dark";
+    document.documentElement.setAttribute("data-theme", normalizedTheme);
+    updateThemeToggle(normalizedTheme);
     if (!persist) return;
     try {
-      window.localStorage.setItem(themeStorageKey, theme);
+      window.localStorage.setItem(themeStorageKey, normalizedTheme);
     } catch (error) {}
+  }
+
+  function getCurrentTheme() {
+    return document.documentElement.getAttribute("data-theme") === "light" ? "light" : "dark";
   }
 
   function renderSidebar() {
@@ -187,7 +192,7 @@
   });
   if (themeToggle) {
     themeToggle.addEventListener("click", function () {
-      var nextTheme = document.documentElement.getAttribute("data-theme") === "light" ? "dark" : "light";
+      var nextTheme = getCurrentTheme() === "light" ? "dark" : "light";
       applyTheme(nextTheme, true);
     });
   }
