@@ -4,6 +4,15 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Office Portal</title>
+  <script>
+    (function () {
+      try {
+        if (window.localStorage.getItem("portal-theme") === "light") {
+          document.documentElement.setAttribute("data-theme", "light");
+        }
+      } catch (error) {}
+    }());
+  </script>
   <link rel="stylesheet" href="css/portal.css">
 </head>
 <body>
@@ -16,6 +25,12 @@
       <span class="search-key">/</span>
     </form>
     <div class="header-actions" aria-label="ヘッダー操作">
+      <button class="theme-toggle" id="theme-toggle" type="button" role="switch" aria-checked="false" aria-label="ダークモードを使用中。ライトモードに切り替え">
+        <span class="theme-toggle-track" aria-hidden="true">
+          <span class="theme-toggle-thumb"></span>
+        </span>
+        <span class="theme-toggle-text" id="theme-toggle-text">ダーク</span>
+      </button>
       <a class="header-action" href="#" aria-label="通知">♢</a>
       <a class="header-action" href="#" aria-label="ヘルプ">?</a>
       <a class="avatar" href="#" aria-label="アカウント">OP</a>
