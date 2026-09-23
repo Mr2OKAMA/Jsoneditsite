@@ -6,7 +6,7 @@ window.PORTAL_CARDS = {
       "category": "home",
       "title": "\u30de\u30cb\u30e5\u30a2\u30eb\u691c\u7d22",
       "description": "\u793e\u5185\u30de\u30cb\u30e5\u30a2\u30eb\u3092\u691c\u7d22",
-      "url": "#",
+      "url": "https://tenki.jp/forecast/5/24/5210/21213/1hour.html",
       "icon": "\u2315",
       "tone": "purple"
     },
