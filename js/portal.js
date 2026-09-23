@@ -9,47 +9,10 @@
   var sidebar = document.getElementById("sidebar");
   var heading = document.getElementById("shortcut-heading");
   var note = document.getElementById("page-note");
-  var themeToggle = document.getElementById("theme-toggle");
-  var themeToggleText = document.getElementById("theme-toggle-text");
-  var themeStorageKey = "portal-theme";
   var currentTarget = "home";
   var cards = [];
   var links = [];
   var categories = [];
-
-  function isCategoryShortcut(url) {
-    return !url || url === "#";
-  }
-
-  function getStoredTheme() {
-    try {
-      var storedTheme = window.localStorage.getItem(themeStorageKey);
-      return storedTheme === "light" || storedTheme === "dark" ? storedTheme : "dark";
-    } catch (error) {
-      return "dark";
-    }
-  }
-
-  function updateThemeToggle(theme) {
-    if (!themeToggle) return;
-    var isLight = theme === "light";
-    themeToggle.setAttribute("aria-checked", isLight ? "true" : "false");
-    themeToggle.setAttribute("aria-label", isLight
-      ? "ライトモードを使用中。ダークモードに切り替え"
-      : "ダークモードを使用中。ライトモードに切り替え");
-    if (themeToggleText) {
-      themeToggleText.textContent = isLight ? "ライト" : "ダーク";
-    }
-  }
-
-  function applyTheme(theme, persist) {
-    document.documentElement.setAttribute("data-theme", theme === "light" ? "light" : "dark");
-    updateThemeToggle(theme);
-    if (!persist) return;
-    try {
-      window.localStorage.setItem(themeStorageKey, theme);
-    } catch (error) {}
-  }
 
   function renderSidebar() {
     categories = (window.PORTAL_CATEGORIES && Array.isArray(window.PORTAL_CATEGORIES) && window.PORTAL_CATEGORIES.length)
@@ -83,13 +46,8 @@
   function createCard(data) {
     var card = document.createElement("a");
     var url = (data.url || "#").trim();
-    var categoryShortcut = isCategoryShortcut(url);
     card.className = "portal-card searchable";
     card.href = url || "#";
-    if (!categoryShortcut) {
-      card.target = "_blank";
-      card.rel = "noopener noreferrer";
-    }
     card.dataset.id = data.id;
     card.dataset.category = data.category;
     card.dataset.search = data.title + " " + data.description;
@@ -99,7 +57,7 @@
     card.querySelector("strong").textContent = data.title;
     card.querySelector("small").textContent = data.description || "ショートカット";
     card.addEventListener("click", function (event) {
-      if (categoryShortcut) {
+      if (!url || url === "#") {
         event.preventDefault();
         select(card.dataset.category);
       }
@@ -167,7 +125,6 @@
   }
 
   renderSidebar();
-  applyTheme(getStoredTheme(), false);
 
   document.getElementById("global-search").addEventListener("submit", function (event) {
     event.preventDefault();
@@ -185,12 +142,6 @@
   document.getElementById("menu-button").addEventListener("click", function () {
     sidebar.hidden = !sidebar.hidden;
   });
-  if (themeToggle) {
-    themeToggle.addEventListener("click", function () {
-      var nextTheme = document.documentElement.getAttribute("data-theme") === "light" ? "dark" : "light";
-      applyTheme(nextTheme, true);
-    });
-  }
 
   loadCards().then(function () {
     var initialTarget = window.location.hash.slice(1);
