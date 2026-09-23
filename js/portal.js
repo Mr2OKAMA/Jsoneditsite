@@ -9,10 +9,38 @@
   var sidebar = document.getElementById("sidebar");
   var heading = document.getElementById("shortcut-heading");
   var note = document.getElementById("page-note");
+  var themeToggle = document.getElementById("theme-toggle");
+  var root = document.documentElement;
+  var themeStorageKey = "portal-theme";
   var currentTarget = "home";
   var cards = [];
   var links = [];
   var categories = [];
+
+  function updateThemeToggle(theme) {
+    if (!themeToggle) return;
+    var isLight = theme === "light";
+    themeToggle.textContent = isLight ? "ライト" : "ダーク";
+    themeToggle.setAttribute("aria-checked", String(isLight));
+    themeToggle.setAttribute("aria-label", isLight ? "ダークモードに切り替え" : "ライトモードに切り替え");
+  }
+
+  function applyTheme(theme) {
+    root.dataset.theme = theme;
+    updateThemeToggle(theme);
+  }
+
+  function resolveInitialTheme() {
+    var savedTheme = "";
+    try {
+      savedTheme = localStorage.getItem(themeStorageKey);
+    } catch (error) {}
+    if (savedTheme === "light" || savedTheme === "dark") return savedTheme;
+    if (window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches) {
+      return "light";
+    }
+    return "dark";
+  }
 
   function renderSidebar() {
     categories = (window.PORTAL_CATEGORIES && Array.isArray(window.PORTAL_CATEGORIES) && window.PORTAL_CATEGORIES.length)
@@ -142,6 +170,16 @@
   document.getElementById("menu-button").addEventListener("click", function () {
     sidebar.hidden = !sidebar.hidden;
   });
+  if (themeToggle) {
+    themeToggle.addEventListener("click", function () {
+      var nextTheme = root.dataset.theme === "light" ? "dark" : "light";
+      applyTheme(nextTheme);
+      try {
+        localStorage.setItem(themeStorageKey, nextTheme);
+      } catch (error) {}
+    });
+  }
+  applyTheme(resolveInitialTheme());
 
   loadCards().then(function () {
     var initialTarget = window.location.hash.slice(1);
